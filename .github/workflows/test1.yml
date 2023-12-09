@@ -1,0 +1,19 @@
+name: Test \#1
+
+on:
+    push:
+        branches: [main]
+
+jobs:
+
+    build:
+        strategy:
+            matrix:
+                os: [ubuntu-latest] # So I could add other operating systems in the future!
+        runs-on: ${{ matrix.os }}
+        steps:
+            - uses: actions/checkout@v2
+            - run: sudo apt update
+            - run: sudo apt install -y build-essential
+            - run: make
+            - run: for i in {1..5}; do echo "NUMBER IS $i"; ./run --test "$i"; done
